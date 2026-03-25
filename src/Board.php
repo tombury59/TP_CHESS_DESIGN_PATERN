@@ -20,7 +20,12 @@ class Board implements InterfaceBoard {
         //var_dump($this->pieces);
     }
     public function getPieceAt(Position $position): ?Piece{
-        return $this->getPieces()[$position->toKey()];
+        $key = $position->toKey();
+        if (isset($this->pieces[$key])) {
+            return $this->pieces[$key];
+        }
+        return null;
+        //return $this->getPieces()[$position->toKey()];
     }
     public function hasPieceAt(Position $position): bool{
         return isset($this->getPieces()[$position->toKey()]);
@@ -60,8 +65,36 @@ class Board implements InterfaceBoard {
         return null;
     }
 
-    public function render(): string{
-        return 1;
+    public function render(): string
+    {
+        $result = "";
+
+        // On commence par la ligne 7 (Haut) et on descend vers 0 (Bas)
+        for ($row = 7; $row >= 0; $row--) {
+
+            // Petit indicateur de numéro de ligne sur le côté
+            $result .= $row . " | ";
+
+            for ($col = 0; $col <= 7; $col++) {
+                $pos = new Position($row, $col);
+                $piece = $this->getPieceAt($pos);
+
+                if ($piece !== null) {
+                    // On appelle le render() de la pièce (ex: ♟, ♜, ♔)
+                    $result .= $piece->render() . " ";
+                } else {
+                    // Case vide : on affiche un point ou un espace
+                    $result .= ". ";
+                }
+            }
+            $result .= "\n"; // Saut de ligne après chaque rangée
+        }
+
+        // Affichage des lettres de colonnes en bas
+        $result .= "    ----------------\n";
+        $result .= "     0 1 2 3 4 5 6 7\n";
+
+        return $result;
     }
 
 }
@@ -74,3 +107,5 @@ $board=new Board();
 $board->placePiece($piece);
 
 var_dump($board->getKingPosition(PieceColor::WHITE));
+
+var_dump($board->render());
