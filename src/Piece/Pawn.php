@@ -20,8 +20,8 @@ class Pawn extends Piece{
 
         // Blanc +1
         // Noirs -1
-        $direction = ($this->color === PieceColor::WHITE) ? 1 : -1;
-        $startRow = ($this->color === PieceColor::WHITE) ? 1 : 6;
+        $direction = ($this->color === PieceColor::WHITE) ? -1 : 1;
+        $startRow = ($this->color === PieceColor::WHITE) ? 6 : 1;
 
         $distanceRow = $rowArrive - $rowDepart;
         $distanceCol = abs($colArrive - $columnDepart);
@@ -43,7 +43,7 @@ class Pawn extends Piece{
             return true;
         }
 
-        return false;
+        throw new InvalidMoveException();
     }
 }
 

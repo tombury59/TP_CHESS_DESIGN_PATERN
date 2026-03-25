@@ -8,7 +8,7 @@ class Position
     public function __construct(int $row,int $column)
     {
         if ($row < 0 || $row > 7 || $column < 0 || $column > 7) {
-            throw new \InvalidArgumentException("Positions must be between 0 and 7.");
+            throw new InvalidBoardSizeException();
         }
 
         $this->row = $row;

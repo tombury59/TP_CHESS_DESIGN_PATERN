@@ -39,24 +39,24 @@ abstract class Piece
     {
         // 1.la pièce ne reste pas sur place
         if ($this->position->equals($target)) {
-            return false;
+            throw new SameTileException();
         }
 
         // 2.la forme du déplacement est valide
         if (!$this->isValidMovementShape($target)) {
-            return false;
+            throw new InvalidMoveException();
         }
 
         // 3.la case cible n'est pas occupée par un allié
         $targetPiece = $board->getPieceAt($target);
         if ($targetPiece !== null && $targetPiece->getColor() === $this->color) {
-            return false;
+            throw new OccupiedByAllyException();
         }
 
         // 4.si la pièce n'est pas un cavalier, le chemin est libre
         if ($this->type !== PieceType::KNIGHT) {
             if (!$board->isPathClear($this->position, $target)) {
-                return false;
+                throw new InvalidMoveException();
             }
         }
 

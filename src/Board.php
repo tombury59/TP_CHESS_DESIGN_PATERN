@@ -6,6 +6,7 @@ require_once __DIR__ . '/Piece/Piece.php';
 require_once __DIR__ . '/Piece/King.php';
 require_once __DIR__ . '/Enum/PieceColor.php';
 require_once __DIR__ . '/Enum/PieceType.php';
+require_once __DIR__ . '/Factory/PieceFactory.php';
 
 class Board implements InterfaceBoard {
     public array $pieces = [];
@@ -28,7 +29,11 @@ class Board implements InterfaceBoard {
         //return $this->getPieces()[$position->toKey()];
     }
     public function hasPieceAt(Position $position): bool{
-        return isset($this->getPieces()[$position->toKey()]);
+        //return isset($this->getPieces()[$position->toKey()]);
+        if (!isset($this->pieces[$position->toKey()])) {
+            throw new NoPieceException();
+        }
+        return true;
     }
     public function removePieceAt(Position $position): void{
         unset($this->pieces[$position->toKey()]);
@@ -47,9 +52,26 @@ class Board implements InterfaceBoard {
         $this->removePieceAt($from);
         $this->placePiece($piece);
     }
-    public function isPathClear(Position $from, Position $to): bool{
-        return 1;
+    public function isPathClear(Position $from, Position $to): bool {
+        $dfRow = $to->getRow() - $from->getRow();
+        $dfCol = $to->getColumn() - $from->getColumn();
+
+        $stepRow = ($dfRow === 0) ? 0 : $dfRow / abs($dfRow);
+        $stepCol = ($dfCol === 0) ? 0 : $dfCol / abs($dfCol);
+
+        $currRow = $from->getRow() + $stepRow;
+        $currCol = $from->getColumn() + $stepCol;
+
+        while ($currRow !== $to->getRow() || $currCol !== $to->getColumn()) {
+            if ($this->hasPieceAt(new Position((int)$currRow, (int)$currCol))) {
+                throw new NoPieceException();
+            }
+            $currRow += $stepRow;
+            $currCol += $stepCol;
+        }
+        return true;
     }
+
     public function getPieces(): array{
 
         return $this->pieces;
@@ -65,36 +87,19 @@ class Board implements InterfaceBoard {
         return null;
     }
 
-    public function render(): string
-    {
-        $result = "";
-
-        // On commence par la ligne 7 (Haut) et on descend vers 0 (Bas)
-        for ($row = 7; $row >= 0; $row--) {
-
-            // Petit indicateur de numéro de ligne sur le côté
-            $result .= $row . " | ";
-
-            for ($col = 0; $col <= 7; $col++) {
-                $pos = new Position($row, $col);
-                $piece = $this->getPieceAt($pos);
-
-                if ($piece !== null) {
-                    // On appelle le render() de la pièce (ex: ♟, ♜, ♔)
-                    $result .= $piece->render() . " ";
-                } else {
-                    // Case vide : on affiche un point ou un espace
-                    $result .= ". ";
-                }
+    public function render(): string {
+        //fait par IA
+        $out = "";
+        for ($r = 0; $r <= 7; $r++) {
+            $out .= $r . " | ";
+            for ($c = 0; $c <= 7; $c++) {
+                $p = $this->getPieceAt(new Position($r, $c));
+                $out .= ($p ? $p->render() : ". ") . " ";
             }
-            $result .= "\n"; // Saut de ligne après chaque rangée
+            $out .= "\n";
         }
-
-        // Affichage des lettres de colonnes en bas
-        $result .= "    ----------------\n";
-        $result .= "     0 1 2 3 4 5 6 7\n";
-
-        return $result;
+        $out .= "    0 1 2 3 4 5 6 7\n";
+        return $out;
     }
 
 }
@@ -109,3 +114,16 @@ $board->placePiece($piece);
 var_dump($board->getKingPosition(PieceColor::WHITE));
 
 var_dump($board->render());
+
+//$factory = new PieceFactory();
+//$board = new Board();
+//
+//// On crée une pièce via la factory
+//$whiteKing = $factory->create(PieceType::KING, PieceColor::WHITE, new Position(7, 4));
+//$board->placePiece($whiteKing);
+//
+//// On crée une autre pièce
+//$blackQueen = $factory->create(PieceType::QUEEN, PieceColor::BLACK, new Position(0, 3));
+//$board->placePiece($blackQueen);
+//
+//echo $board->render();
