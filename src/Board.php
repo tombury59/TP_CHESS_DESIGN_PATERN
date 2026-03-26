@@ -1,12 +1,9 @@
 <?php
 
-require_once __DIR__ . '/Contract/InterfaceBoard.php';
-require_once __DIR__ . '/Position.php';
-require_once __DIR__ . '/Piece/Piece.php';
-require_once __DIR__ . '/Piece/King.php';
-require_once __DIR__ . '/Enum/PieceColor.php';
-require_once __DIR__ . '/Enum/PieceType.php';
 require_once __DIR__ . '/Factory/PieceFactory.php';
+require_once __DIR__ . '/Exception/NoPieceException.php';
+require_once __DIR__ . '/Exception/InvalidPieceTypeException.php';
+require_once __DIR__ . '/Contract/InterfaceBoard.php';
 
 class Board implements InterfaceBoard {
     public array $pieces = [];
@@ -103,26 +100,13 @@ class Board implements InterfaceBoard {
     }
 
 }
-$position=new Position(1,1);
-$position2=new Position(3,1);
-
-$piece= new King(PieceColor::WHITE,$position);
-
-$board=new Board();
-$board->placePiece($piece);
-
-var_dump($board->getKingPosition(PieceColor::WHITE));
-
-var_dump($board->render());
 
 //$factory = new PieceFactory();
 //$board = new Board();
 //
-//// On crée une pièce via la factory
 //$whiteKing = $factory->create(PieceType::KING, PieceColor::WHITE, new Position(7, 4));
 //$board->placePiece($whiteKing);
 //
-//// On crée une autre pièce
 //$blackQueen = $factory->create(PieceType::QUEEN, PieceColor::BLACK, new Position(0, 3));
 //$board->placePiece($blackQueen);
 //

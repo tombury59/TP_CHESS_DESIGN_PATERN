@@ -26,9 +26,9 @@ class Queen extends Piece{
 
     }
 }
-$position=new Position(7,7);
-
-$positionArrive=new Position(7,12);
-
-$queen=new Queen(PieceColor::WHITE,$position);
-var_dump($queen->isValidMovementShape($positionArrive));
+//$position=new Position(7,7);
+//
+//$positionArrive=new Position(7,1);
+//
+//$queen=new Queen(PieceColor::WHITE,$position);
+//var_dump($queen->isValidMovementShape($positionArrive));

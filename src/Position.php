@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__. '/Exception/InvalidBoardSizeException.php';
+
 class Position
 {
     private int $row;
@@ -39,7 +41,7 @@ class Position
     }
 }
 
-//$pos1= new Position(1,1);
-
+//$pos1= new Position(7,1);
+//
 //$pos2= new Position(1,1);
 //var_dump($pos1->equals($pos2));

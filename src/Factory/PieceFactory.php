@@ -1,5 +1,13 @@
 <?php
-
+require_once __DIR__ . '/../Piece/Piece.php';
+require_once __DIR__ . '/../Piece/Pawn.php';
+require_once __DIR__ . '/../Piece/Rook.php';
+require_once __DIR__ . '/../Piece/Knight.php';
+require_once __DIR__ . '/../Piece/Bishop.php';
+require_once __DIR__ . '/../Piece/Queen.php';
+require_once __DIR__ . '/../Piece/King.php';
+require_once __DIR__ . '/../Enum/PieceColor.php';
+require_once __DIR__ . '/../Enum/PieceType.php';
 class PieceFactory{
 
     public function create(PieceType $type, PieceColor $color, Position $position): Piece

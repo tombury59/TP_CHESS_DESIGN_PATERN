@@ -27,9 +27,9 @@ class Knight extends Piece{
 
     }
 }
-$position=new Position(7,7);
-
-$positionArrive=new Position(5,6);
-
-$knight=new Knight(PieceColor::WHITE,$position);
-var_dump($knight->isValidMovementShape($positionArrive));
+//$position=new Position(7,7);
+//
+//$positionArrive=new Position(5,6);
+//
+//$knight=new Knight(PieceColor::WHITE,$position);
+//var_dump($knight->isValidMovementShape($positionArrive));
