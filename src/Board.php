@@ -4,6 +4,7 @@ require_once __DIR__ . '/Factory/PieceFactory.php';
 require_once __DIR__ . '/Exception/NoPieceException.php';
 require_once __DIR__ . '/Exception/InvalidPieceTypeException.php';
 require_once __DIR__ . '/Contract/InterfaceBoard.php';
+require_once __DIR__ . '/Exception/InvalidMoveException.php';
 
 class Board implements InterfaceBoard {
     public array $pieces = [];
@@ -40,10 +41,12 @@ class Board implements InterfaceBoard {
         //$move = new Move($from,$to);
         $piece = $this->getPieceAt($from);
         if ($piece === null) {
-            throw new Exception("Aucune pièce à cette position !");
+            //throw new Exception("Aucune pièce à cette position !");
+            throw new NoPieceException();
         }
         if (!$piece->canMove($this, $to)) {
-            throw new Exception("Mouvement invalide pour cette pièce !");
+            //throw new Exception("Mouvement invalide pour cette pièce !");
+            throw new InvalidMoveException();
         }
 
         $this->removePieceAt($from);
