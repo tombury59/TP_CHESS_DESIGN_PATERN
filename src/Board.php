@@ -7,11 +7,8 @@ require_once __DIR__ . '/Contract/InterfaceBoard.php';
 require_once __DIR__ . '/Exception/InvalidMoveException.php';
 
 class Board implements InterfaceBoard {
-    public array $pieces = [];
-    //public function __construct($pieces)
-    //{
-    //    $this->
-    //}
+    
+    private array $pieces = [];
 
     public function placePiece(Piece $piece): void{
         $position=$piece->getPosition();
@@ -28,28 +25,22 @@ class Board implements InterfaceBoard {
     }
     public function hasPieceAt(Position $position): bool{
         //return isset($this->getPieces()[$position->toKey()]);
-        if (!isset($this->pieces[$position->toKey()])) {
-            throw new NoPieceException();
-        }
-        return true;
+        return isset($this->pieces[$position->toKey()]);
     }
     public function removePieceAt(Position $position): void{
         unset($this->pieces[$position->toKey()]);
     }
-    public function movePiece(Position $from, Position $to): void
-    {
-        //$move = new Move($from,$to);
+    public function movePiece(Position $from, Position $to): void {
         $piece = $this->getPieceAt($from);
         if ($piece === null) {
-            //throw new Exception("Aucune pièce à cette position !");
             throw new NoPieceException();
-        }
-        if (!$piece->canMove($this, $to)) {
-            //throw new Exception("Mouvement invalide pour cette pièce !");
-            throw new InvalidMoveException();
         }
 
         $this->removePieceAt($from);
+        // var_dump($this->pieces);
+        
+        $piece->setPosition($to);
+        
         $this->placePiece($piece);
     }
     public function isPathClear(Position $from, Position $to): bool {
@@ -62,13 +53,14 @@ class Board implements InterfaceBoard {
         $currRow = $from->getRow() + $stepRow;
         $currCol = $from->getColumn() + $stepCol;
 
-        while ($currRow !== $to->getRow() || $currCol !== $to->getColumn()) {
+        while ($currRow != $to->getRow() || $currCol != $to->getColumn()) {
             if ($this->hasPieceAt(new Position((int)$currRow, (int)$currCol))) {
-                throw new NoPieceException();
+                return false;
             }
             $currRow += $stepRow;
             $currCol += $stepCol;
         }
+        
         return true;
     }
 
@@ -88,17 +80,31 @@ class Board implements InterfaceBoard {
     }
 
     public function render(): string {
-        //fait par IA
-        $out = "";
+        // fait par iA
+        $out = "\n    0  1  2  3  4  5  6  7\n"; // Coordonnées du haut
+        $out .= "  +------------------------+\n";
+
         for ($r = 0; $r <= 7; $r++) {
-            $out .= $r . " | ";
+            $out .= $r . " |"; // Indice de ligne
             for ($c = 0; $c <= 7; $c++) {
-                $p = $this->getPieceAt(new Position($r, $c));
-                $out .= ($p ? $p->render() : ". ") . " ";
+                $pos = new Position($r, $c);
+                $p = $this->getPieceAt($pos);
+                
+                // Logique du damier : (ligne + colonne) pair ou impair
+                $isDark = ($r + $c) % 2 !== 0;
+                $bg = $isDark ? "\e[48;5;240m" : "\e[48;5;245m"; // Gris foncé vs Gris clair
+                $reset = "\e[0m";
+
+                $char = $p ? $p->render() : " ";
+                
+                // On ajoute des espaces pour que chaque case soit un carré de 3 persos
+                $out .= $bg . " " . $char . " " . $reset;
             }
-            $out .= "\n";
+            $out .= "| " . $r . "\n"; // Indice de ligne à droite aussi
         }
-        $out .= "    0 1 2 3 4 5 6 7\n";
+
+        $out .= "  +------------------------+\n";
+        $out .= "    0  1  2  3  4  5  6  7\n";
         return $out;
     }
 

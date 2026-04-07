@@ -1,9 +1,11 @@
 <?php
 
-class InvalidMoveException extends Exception{
+require_once __DIR__ . '/ChessException.php';
 
-    public function __construct()
+class InvalidMoveException extends ChessException{
+
+    public function __construct(string $message = "Mouvement invalide pour cette pièce !")
     {
-        parent::__construct("Mouvement invalide pour cette pièce !");
+        parent::__construct($message);
     }
 }

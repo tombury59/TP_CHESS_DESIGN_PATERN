@@ -1,9 +1,9 @@
 <?php
+require_once __DIR__ . '/ChessException.php';
+class SameTileException extends ChessException{
 
-class SameTileException extends Exception{
-
-    public function __construct()
+    public function __construct(string $message = "Vous devez bouger la pièce vers une autre case !")
     {
-        parent::__construct("Vous devez bouger la pièce vers une autre case !");
+        parent::__construct($message);
     }
 }

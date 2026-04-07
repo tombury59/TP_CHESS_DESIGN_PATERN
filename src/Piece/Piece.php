@@ -26,12 +26,12 @@ abstract class Piece
         $isWhite = $this->color === PieceColor::WHITE;
 
         return match($this->type) {
-            PieceType::KING   => $isWhite ? 'k' : 'K',
-            PieceType::QUEEN  => $isWhite ? 'q' : 'Q',
-            PieceType::ROOK   => $isWhite ? 'r' : 'R',
-            PieceType::BISHOP => $isWhite ? 'b' : 'B',
-            PieceType::KNIGHT => $isWhite ? 'n' : 'N',
-            PieceType::PAWN   => $isWhite ? 'p' : 'P',
+            PieceType::KING   => $isWhite ? 'K' : 'k',
+            PieceType::QUEEN  => $isWhite ? 'Q' : 'q',
+            PieceType::ROOK   => $isWhite ? 'R' : 'r',
+            PieceType::BISHOP => $isWhite ? 'B' : 'b',
+            PieceType::KNIGHT => $isWhite ? 'N' : 'n',
+            PieceType::PAWN   => $isWhite ? 'P' : 'p',
         };
     }
 

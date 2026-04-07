@@ -1,9 +1,9 @@
 <?php
-
-class NoPieceException extends Exception
+require_once __DIR__ . '/ChessException.php';
+class NoPieceException extends ChessException
 {
-    public function __construct()
+    public function __construct(string $message = "Aucune pièce à cette position !")
     {
-        parent::__construct("Aucune pièce à cette position !");
+        parent::__construct($message);
     }
 }
