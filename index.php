@@ -1,24 +1,19 @@
 <?php
-require_once __DIR__ . '/src/Contract/Renderable.php';
-require_once __DIR__ . '/src/Enum/PieceColor.php';
-require_once __DIR__ . '/src/Enum/PieceType.php';
-require_once __DIR__ . '/src/Position.php';
-require_once __DIR__ . '/src/Move.php';
-require_once __DIR__ . '/src/Exception/ChessException.php';
-require_once __DIR__ . '/src/Exception/InvalidMoveException.php';
-require_once __DIR__ . '/src/Exception/NoPieceException.php';
-require_once __DIR__ . '/src/Exception/WrongTurnException.php';
-require_once __DIR__ . '/src/Exception/OccupiedByAllyException.php';
-require_once __DIR__ . '/src/Board.php';
-require_once __DIR__ . '/src/Piece/Piece.php';
-require_once __DIR__ . '/src/Piece/King.php';
-require_once __DIR__ . '/src/Piece/Queen.php';
-require_once __DIR__ . '/src/Piece/Rook.php';
-require_once __DIR__ . '/src/Piece/Bishop.php';
-require_once __DIR__ . '/src/Piece/Knight.php';
-require_once __DIR__ . '/src/Piece/Pawn.php';
-require_once __DIR__ . '/src/Factory/PieceFactory.php';
-require_once __DIR__ . '/src/Game.php';
+require_once __DIR__ . '/vendor/autoload.php';
+use App\Position;
+use App\Move;
+use App\Game;
+use App\Enum\PieceColor;
+use App\Enum\PieceType;
+use App\Exception\ChessException;
+use App\Exception\InvalidBoardSizeException;
+use App\Exception\InvalidMoveException;
+use App\Exception\InvalidPieceTypeException;
+use App\Exception\NoPieceException;
+use App\Exception\OccupiedByAllyException;
+use App\Exception\SameTileException;
+use App\Exception\WrongTurnException;
+use Exception;
 
 /**
  * Joue une série de coups.
@@ -113,6 +108,6 @@ function scenarioGrandRoque(): void
     ], [[7,4], [7,2]]); // Final: e1 -> c1
 }
 
-scenarioPetitRoque();
-//scenarioMatDuBerger();
-// scenarioGrandRoque();
+// scenarioPetitRoque();
+// scenarioMatDuBerger();
+scenarioGrandRoque();

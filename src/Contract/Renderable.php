@@ -1,4 +1,6 @@
 <?php
+namespace App\Contract;
+
 /**
  * Interface Renderable
  * 

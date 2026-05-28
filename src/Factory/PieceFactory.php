@@ -1,14 +1,18 @@
 <?php
-require_once __DIR__ . '/../Piece/Piece.php';
-require_once __DIR__ . '/../Piece/Pawn.php';
-require_once __DIR__ . '/../Piece/Rook.php';
-require_once __DIR__ . '/../Piece/Knight.php';
-require_once __DIR__ . '/../Piece/Bishop.php';
-require_once __DIR__ . '/../Piece/Queen.php';
-require_once __DIR__ . '/../Piece/King.php';
-require_once __DIR__ . '/../Enum/PieceColor.php';
-require_once __DIR__ . '/../Enum/PieceType.php';
-require_once __DIR__ . '/../Exception/InvalidPieceTypeException.php';
+namespace App\Factory;
+
+use App\Position;
+use App\Piece\Piece;
+use App\Piece\Pawn;
+use App\Piece\Rook;
+use App\Piece\Knight;
+use App\Piece\Bishop;
+use App\Piece\Queen;
+use App\Piece\King;
+use App\Enum\PieceColor;
+use App\Enum\PieceType;
+use App\Exception\InvalidPieceTypeException;
+
 
 /**
  * Classe PieceFactory

@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/ChessException.php';
+namespace App\Exception;
+
+
 /**
  * Exception levée lorsqu'on essaie de déplacer une pièce sur la même case.
  */

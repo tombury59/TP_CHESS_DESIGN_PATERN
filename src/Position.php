@@ -1,6 +1,8 @@
 <?php
+namespace App;
+use App\Position;
+use App\Exception\InvalidBoardSizeException;
 
-require_once __DIR__. '/Exception/InvalidBoardSizeException.php';
 
 /**
  * Classe Position

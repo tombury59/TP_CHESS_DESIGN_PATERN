@@ -1,10 +1,14 @@
 <?php
+namespace App;
+use App\Position;
+use App\Board;
+use App\Piece\Piece;
+use App\Piece\King;
+use App\Enum\PieceColor;
+use App\Enum\PieceType;
+use App\Contract\InterfaceBoard;
+use App\Exception\NoPieceException;
 
-require_once __DIR__ . '/Factory/PieceFactory.php';
-require_once __DIR__ . '/Exception/NoPieceException.php';
-require_once __DIR__ . '/Exception/InvalidPieceTypeException.php';
-require_once __DIR__ . '/Contract/InterfaceBoard.php';
-require_once __DIR__ . '/Exception/InvalidMoveException.php';
 
 /**
  * Classe Board

@@ -1,4 +1,11 @@
 <?php
+namespace App\Piece;
+
+use App\Position;
+use App\Move;
+use App\Enum\PieceColor;
+use App\Enum\PieceType;
+
 
 /**
  * Classe Knight
@@ -6,10 +13,6 @@
  * Représente le cavalier et gère ses règles de déplacement spécifiques.
  */
 
-require_once __DIR__ . '/../Position.php';
-require_once __DIR__ . '/Piece.php';
-require_once __DIR__ . '/../Enum/PieceColor.php';
-require_once __DIR__ . '/../Enum/PieceType.php';
 
 class Knight extends Piece{
     public function __construct(PieceColor $color, Position $position) {

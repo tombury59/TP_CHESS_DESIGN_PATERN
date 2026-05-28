@@ -1,4 +1,12 @@
 <?php
+namespace App\Contract;
+
+use App\Position;
+use App\Board;
+use App\Piece\Piece;
+use App\Piece\King;
+use App\Enum\PieceColor;
+
 
 interface InterfaceBoard{
     public function placePiece(Piece $piece): void;

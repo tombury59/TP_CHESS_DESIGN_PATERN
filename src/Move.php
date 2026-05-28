@@ -1,4 +1,7 @@
 <?php
+namespace App;
+use App\Position;
+use App\Move;
 
 /**
  * Classe Move

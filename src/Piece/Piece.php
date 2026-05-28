@@ -1,4 +1,15 @@
 <?php
+namespace App\Piece;
+
+use App\Position;
+use App\Move;
+use App\Board;
+use App\Enum\PieceColor;
+use App\Enum\PieceType;
+use App\Exception\InvalidMoveException;
+use App\Exception\OccupiedByAllyException;
+use App\Exception\SameTileException;
+
 
 /**
  * Classe abstraite Piece

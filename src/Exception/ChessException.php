@@ -1,4 +1,7 @@
 <?php
+namespace App\Exception;
+
+use Exception;
 
 /**
  * Exception personnalisée pour le jeu d'échecs.

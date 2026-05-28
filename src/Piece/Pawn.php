@@ -1,4 +1,12 @@
 <?php
+namespace App\Piece;
+
+use App\Position;
+use App\Move;
+use App\Enum\PieceColor;
+use App\Enum\PieceType;
+use App\Exception\InvalidMoveException;
+
 
 /**
  * Classe Pawn

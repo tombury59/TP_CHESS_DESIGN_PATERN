@@ -1,21 +1,23 @@
 <?php
-
-require_once __DIR__ . '/Board.php';
-require_once __DIR__ . '/Move.php';
-require_once __DIR__ . '/Piece/Piece.php';
-require_once __DIR__ . '/Piece/Pawn.php';
-require_once __DIR__ . '/Piece/Rook.php';
-require_once __DIR__ . '/Piece/Knight.php';
-require_once __DIR__ . '/Piece/Bishop.php';
-require_once __DIR__ . '/Piece/Queen.php';
-require_once __DIR__ . '/Piece/King.php';
-require_once __DIR__ . '/Factory/PieceFactory.php';
-require_once __DIR__ . '/Enum/PieceColor.php';
-require_once __DIR__ . '/Enum/PieceType.php';
-require_once __DIR__ . '/Exception/ChessException.php';
-require_once __DIR__ . '/Exception/NoPieceException.php';
-require_once __DIR__ . '/Exception/WrongTurnException.php';
-require_once __DIR__ . '/Exception/InvalidMoveException.php';
+namespace App;
+use App\Position;
+use App\Move;
+use App\Board;
+use App\Game;
+use App\Piece\Piece;
+use App\Piece\Pawn;
+use App\Piece\Rook;
+use App\Piece\Knight;
+use App\Piece\Bishop;
+use App\Piece\Queen;
+use App\Piece\King;
+use App\Enum\PieceColor;
+use App\Enum\PieceType;
+use App\Factory\PieceFactory;
+use App\Exception\ChessException;
+use App\Exception\InvalidMoveException;
+use App\Exception\NoPieceException;
+use App\Exception\WrongTurnException;
 
 
 /**

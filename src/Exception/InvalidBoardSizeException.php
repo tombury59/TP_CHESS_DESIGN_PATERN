@@ -1,6 +1,5 @@
 <?php
-
-require_once __DIR__ . '/ChessException.php';
+namespace App\Exception;
 
 /**
  * Exception levée lorsque la taille du plateau est invalide.

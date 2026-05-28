@@ -1,4 +1,8 @@
 <?php
+namespace App\Enum;
+
+use App\Piece\Piece;
+
 
 /**
  * Enum PieceColor
