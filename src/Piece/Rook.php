@@ -1,10 +1,10 @@
 <?php
 
-//require_once __DIR__ . '/../Position.php';
-//require_once __DIR__ . '/Piece.php';
-//require_once __DIR__ . '/../Enum/PieceColor.php';
-//require_once __DIR__ . '/../Enum/PieceType.php';
-
+/**
+ * Classe Rook
+ * 
+ * Représente la tour et gère ses règles de déplacement spécifiques.
+ */
 class Rook extends Piece{
     public function __construct(PieceColor $color, Position $position) {
         parent::__construct($color, $position);
@@ -23,9 +23,3 @@ class Rook extends Piece{
 
     }
 }
-//$position=new Position(7,7);
-//
-//$positionArrive=new Position(5,6);
-//
-//$rook=new Rook(PieceColor::WHITE,$position);
-//var_dump($rook->isValidMovementShape($positionArrive));

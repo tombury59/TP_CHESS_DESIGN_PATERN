@@ -1,9 +1,10 @@
 <?php
 
-//require_once __DIR__ . '/../Position.php';
-//require_once __DIR__ . '/Piece.php';
-//require_once __DIR__ . '/../Enum/PieceColor.php';
-//require_once __DIR__ . '/../Enum/PieceType.php';
+/**
+ * Classe Pawn
+ * 
+ * Représente le pion et gère ses règles de déplacement spécifiques.
+ */
 
 class Pawn extends Piece{
     public function __construct(PieceColor $color, Position $position) {
@@ -46,10 +47,3 @@ class Pawn extends Piece{
         throw new InvalidMoveException();
     }
 }
-
-//$position=new Position(1,0);
-//
-//$positionArrive=new Position(3,0);
-//
-//$pawn=new Pawn(PieceColor::WHITE,$position);
-//var_dump($pawn->isValidMovementShape($positionArrive));

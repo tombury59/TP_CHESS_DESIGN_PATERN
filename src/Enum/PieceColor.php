@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * Enum PieceColor
+ * 
+ * Représente les couleurs des pièces aux échecs.
+ */
 enum PieceColor{
 
     case WHITE;

@@ -1,10 +1,10 @@
 <?php
 
-//require_once __DIR__ . '/../Position.php';
-//require_once __DIR__ . '/Piece.php';
-//require_once __DIR__ . '/../Enum/PieceColor.php';
-//require_once __DIR__ . '/../Enum/PieceType.php';
-
+/**
+ * Classe King
+ * 
+ * Représente le roi et gère ses règles de déplacement spécifiques, y compris le roque.
+ */
 class King extends Piece{
     public function __construct(PieceColor $color, Position $position) {
         parent::__construct($color, $position);
@@ -29,9 +29,3 @@ class King extends Piece{
 
     }
 }
-//$position=new Position(7,7);
-//
-//$positionArrive=new Position(7,7);
-
-//$king=new King(PieceColor::WHITE,$position);
-//var_dump($king->isValidMovementShape($positionArrive));

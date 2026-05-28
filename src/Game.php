@@ -18,6 +18,12 @@ require_once __DIR__ . '/Exception/WrongTurnException.php';
 require_once __DIR__ . '/Exception/InvalidMoveException.php';
 
 
+/**
+ * Classe Game
+ * 
+ * Moteur principal du jeu d'échecs. Gère les tours de jeu, le plateau, 
+ * les règles de déplacement de base (roque, échec, etc.).
+ */
 class Game{
     private Board $board;
     private PieceColor $currentPlayer;
@@ -28,15 +34,39 @@ class Game{
         $this->currentPlayer = PieceColor::WHITE;
         $this->pieceFactory = new PieceFactory();
     }
+    /**
+     * Initialise la partie en positionnant les pièces.
+     */
     public function start(): void{
         $this->setupPieces();
     }
+
+    /**
+     * Retourne le plateau de jeu actuel.
+     *
+     * @return Board
+     */
     public function getBoard(): Board{
         return $this->board;
     }
+    /**
+     * Retourne la couleur du joueur dont c'est le tour.
+     *
+     * @return PieceColor
+     */
     public function getCurrentPlayer(): PieceColor{
         return $this->currentPlayer;
     }
+
+    /**
+     * Exécute un mouvement sur l'échiquier.
+     * Vérifie la validité du mouvement (tour, possibilité, roque, échec).
+     *
+     * @param Move $move
+     * @throws NoPieceException
+     * @throws WrongTurnException
+     * @throws InvalidMoveException
+     */
     public function play(Move $move): void{
         $piece = $this->board->getPieceAt($move->getFrom());
         if ($piece === null) {
@@ -103,6 +133,12 @@ class Game{
             }
         $this->switchPlayer();
     }
+    /**
+     * Vérifie si le roi de la couleur donnée est en échec.
+     *
+     * @param PieceColor $color
+     * @return bool
+     */
     public function isCheck(PieceColor $color): bool {
         $kingPosition = $this->board->getKingPosition($color);
         if ($kingPosition === null) return false;
@@ -120,6 +156,9 @@ class Game{
         }
         return false;
     }
+    /**
+     * Place les pièces en position initiale sur le plateau.
+     */
     private function setupPieces(): void{
         $pieces = [
             PieceType::ROOK,
@@ -141,21 +180,10 @@ class Game{
         }
 
     }
+    /**
+     * Alterne le tour du joueur courant.
+     */
     private function switchPlayer(): void{
         $this->currentPlayer = $this->currentPlayer->opposite();    
     }
 }
-
-// $game = new Game();
-
-// $game->start();
-
-// echo $game->getBoard()->render();
-
-// var_dump($game->getCurrentPlayer());
-// var_dump($game->getBoard()->getPieces());
-// $game->play(new Move(new Position(6,4), new Position(4,4)));
-// echo $game->getBoard()->render();
-// var_dump($game->getCurrentPlayer());
-
-// echo "check ? " . ($game->isCheck($game->getCurrentPlayer()) ? "true" : "false") . "\n";

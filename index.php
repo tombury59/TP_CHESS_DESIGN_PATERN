@@ -20,6 +20,13 @@ require_once __DIR__ . '/src/Piece/Pawn.php';
 require_once __DIR__ . '/src/Factory/PieceFactory.php';
 require_once __DIR__ . '/src/Game.php';
 
+/**
+ * Joue une série de coups.
+ *
+ * @param Game $game
+ * @param array $coups
+ * @return void
+ */
 function jouerCoups(Game $game, array $coups): void
 {
     foreach ($coups as $coup) {
@@ -32,179 +39,80 @@ function jouerCoups(Game $game, array $coups): void
     }
 }
 
-// Petit roque
+/**
+ * Orchestre un scénario de test pour éviter la duplication de code.
+ */
+function executerScenario(string $nom, array $coups, ?array $coupFinal = null, ?callable $callbackIntermediaire = null): void
+{
+    echo "\n=== SCENARIO : $nom ===\n";
+    
+    $game = new Game();
+    $game->start();
+    echo $game->getBoard()->render() . "\n";
+
+    try {
+        jouerCoups($game, $coups);
+
+        if ($callbackIntermediaire) {
+            $callbackIntermediaire($game);
+        }
+
+        if ($coupFinal) {
+            echo "--- Avant action finale ---\n";
+            echo $game->getBoard()->render() . "\n";
+
+            $game->play(new Move(new Position($coupFinal[0][0], $coupFinal[0][1]), new Position($coupFinal[1][0], $coupFinal[1][1])));
+
+            echo "--- Après action finale ---\n";
+            echo $game->getBoard()->render() . "\n";
+        }
+    } catch (ChessException $e) {
+        echo "Erreur règle : " . $e->getMessage() . "\n";
+    } catch (Exception $e) {
+        echo "Erreur système : " . $e->getMessage() . "\n";
+    }
+}
+
+// 1. Petit roque
 function scenarioPetitRoque(): void
 {
-    echo "\n=== SCENARIO 1 : Petit Roque blanc ===\n";
-
-    $game = new Game();
-    $game->start();
-
-    echo $game->getBoard()->render() . "\n";
-
-    try {
-
-        $coups = [
-
-            [[6,4],[4,4]], // e2 -> e4
-            [[1,0],[2,0]], // a7 -> a6
-
-            [[7,5],[4,2]], // f1 -> c4
-            [[1,1],[2,1]], // b7 -> b6
-
-            [[7,6],[5,5]], // g1 -> f3
-            [[1,2],[2,2]], // c7 -> c6
-
-        ];
-
-        jouerCoups($game, $coups);
-
-        echo "--- Avant le roque ---\n";
-        echo $game->getBoard()->render() . "\n";
-
-        // Roque : e1 -> g1
-        $game->play(
-            new Move(
-                new Position(7,4),
-                new Position(7,6)
-            )
-        );
-
-        echo "--- Après le roque ---\n";
-        echo $game->getBoard()->render() . "\n";
-
-        echo "Roi 'K' en (7:6), Tour 'R' en (7:5)\n";
-
-    } catch (ChessException $e) {
-
-        echo "Erreur règle : " . $e->getMessage() . "\n";
-
-    } catch (Exception $e) {
-
-        echo "Erreur système : " . $e->getMessage() . "\n";
-    }
+    executerScenario("Petit Roque", [
+        [[6,4],[4,4]], [[1,0],[2,0]], // e2->e4, a7->a6
+        [[7,5],[4,2]], [[1,1],[2,1]], // f1->c4, b7->b6
+        [[7,6],[5,5]], [[1,2],[2,2]], // g1->f3, c7->c6
+    ], [[7,4], [7,6]]); // Final: e1 -> g1
 }
 
-// Mat du berger
+// 2. Mat du berger
 function scenarioMatDuBerger(): void
 {
-    echo "\n=== SCENARIO 2 : Mat du berger ===\n";
-
-    $game = new Game();
-    $game->start();
-
-    echo $game->getBoard()->render();
-    echo "Tour : " . $game->getCurrentPlayer()->name . "\n\n";
-
-    try {
-
-        $coups = [
-
-            [[6,4],[4,4]], // e2 -> e4
-            [[1,0],[2,0]], // a7 -> a5
-
-            [[7,5],[4,2]], // f1 -> c4
-            [[2,0],[3,0]], // a5 -> a4
-
-            [[7,3],[5,5]], // d1 -> h5
-            [[0,1],[2,2]], // b8 -> c6
-
-        ];
-
-        jouerCoups($game, $coups);
-
-        echo "Check ? "
-            . ($game->isCheck($game->getCurrentPlayer()) ? "true" : "false")
-            . "\n";
-
-        // h5 -> f7
-        $game->play(
-            new Move(
-                new Position(5,5),
-                new Position(1,5)
-            )
-        );
-
-        echo "Check ? "
-            . ($game->isCheck($game->getCurrentPlayer()) ? "true" : "false")
-            . "\n";
-
-        echo $game->getBoard()->render();
-        echo "Tour : " . $game->getCurrentPlayer()->name . "\n\n";
-
-        // h7 -> h6
-        $game->play(
-            new Move(
-                new Position(1,7),
-                new Position(2,7)
-            )
-        );
-
-    } catch (ChessException $e) {
-
-        echo "Error : " . $e->getMessage() . "\n";
-    }
+    executerScenario("Mat du berger", [
+        [[6,4],[4,4]], [[1,0],[2,0]], // e2->e4, a7->a5
+        [[7,5],[4,2]], [[2,0],[3,0]], // f1->c4, a5->a4
+        [[7,3],[5,5]], [[0,1],[2,2]], // d1->h5, b8->c6
+    ], [[1,7], [2,7]], function($game) { // Final: h7 -> h6
+        // check si le roi noir est en echec
+        echo "Check ? " . ($game->isCheck($game->getCurrentPlayer()) ? "true" : "false") . "\n";
+        
+        $game->play(new Move(new Position(5,5), new Position(1,5)));
+        
+        echo "Check ? " . ($game->isCheck($game->getCurrentPlayer()) ? "true" : "false") . "\n";
+        echo "Tour : " . $game->getCurrentPlayer()->name . "\n";
+    });
 }
 
-// Grand roque
+// 3. Grand roque
 function scenarioGrandRoque(): void
 {
-    echo "\n=== SCENARIO 3 : Grand Roque blanc ===\n";
-
-    $game = new Game();
-    $game->start();
-
-    echo $game->getBoard()->render() . "\n";
-
-    try {
-
-        $coups = [
-
-            [[6,3],[4,3]], // d2 -> d4
-            [[1,0],[2,0]], // a7 -> a6
-
-            [[6,2],[4,2]], // c2 -> c4
-            [[1,1],[2,1]], // b7 -> b6
-
-            [[7,1],[5,2]], // b1 -> c3
-            [[1,2],[2,2]], // c7 -> c6
-
-            [[7,2],[5,4]], // c1 -> e3
-            [[1,3],[2,3]], // d7 -> d6
-
-            [[7,3],[6,3]], // d1 -> d2
-            [[1,4],[2,4]], // e7 -> e6
-
-        ];
-
-        jouerCoups($game, $coups);
-
-        echo "--- Avant le grand roque ---\n";
-        echo $game->getBoard()->render() . "\n";
-
-        // Grand roque : e1 -> c1
-        $game->play(
-            new Move(
-                new Position(7,4),
-                new Position(7,2)
-            )
-        );
-
-        echo "--- Après le grand roque ---\n";
-        echo $game->getBoard()->render() . "\n";
-
-        echo "Roi 'K' en (7:2), Tour 'R' en (7:3)\n";
-
-    } catch (ChessException $e) {
-
-        echo "Erreur règle : " . $e->getMessage() . "\n";
-
-    } catch (Exception $e) {
-
-        echo "Erreur système : " . $e->getMessage() . "\n";
-    }
+    executerScenario("Grand Roque blanc", [
+        [[6,3],[4,3]], [[1,0],[2,0]], // d2->d4, a7->a6
+        [[6,2],[4,2]], [[1,1],[2,1]], // c2->c4, b7->b6
+        [[7,1],[5,2]], [[1,2],[2,2]], // b1->c3, c7->c6
+        [[7,2],[5,4]], [[1,3],[2,3]], // c1->e3, d7->d6
+        [[7,3],[6,3]], [[1,4],[2,4]], // d1->d2, e7->e6
+    ], [[7,4], [7,2]]); // Final: e1 -> c1
 }
 
-//scenarioPetitRoque();
+scenarioPetitRoque();
 //scenarioMatDuBerger();
-scenarioGrandRoque();
+// scenarioGrandRoque();

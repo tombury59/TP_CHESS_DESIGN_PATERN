@@ -1,10 +1,10 @@
 <?php
 
-//require_once __DIR__ . '/../Position.php';
-//require_once __DIR__ . '/Piece.php';
-//require_once __DIR__ . '/../Enum/PieceColor.php';
-//require_once __DIR__ . '/../Enum/PieceType.php';
-
+/**
+ * Classe Bishop
+ * 
+ * Représente le fou et gère ses règles de déplacement spécifiques.
+ */
 class Bishop extends Piece{
     public function __construct(PieceColor $color, Position $position) {
         parent::__construct($color, $position);
@@ -26,9 +26,3 @@ class Bishop extends Piece{
 
     }
 }
-//$position=new Position(7,7);
-//
-//$positionArrive=new Position(6,6);
-//
-//$bishop=new Bishop(PieceColor::WHITE,$position);
-//var_dump($bishop->isValidMovementShape($positionArrive));

@@ -1,29 +1,59 @@
 <?php
 
+/**
+ * Classe abstraite Piece
+ * 
+ * Représente une pièce générique du jeu d'échecs.
+ * Définit le comportement commun à toutes les pièces.
+ */
 abstract class Piece
 {
     protected PieceColor $color;
     protected Position $position;
     protected PieceType $type;
 
+    /**
+     * @param PieceColor $color Couleur de la pièce
+     * @param Position $position Position initiale
+     */
     public function __construct(PieceColor $color, Position $position){
         $this->color=$color;
         $this->position=$position;
         $this->hasMoved=false;
     }
+    /**
+     * @return PieceColor
+     */
     public function getColor(): PieceColor{
         return $this->color;
     }
+
+    /**
+     * @return Position
+     */
     public function getPosition(): Position{
         return $this->position;
     }
+
+    /**
+     * Met à jour la position de la pièce.
+     *
+     * @param Position $position
+     */
     public function setPosition(Position $position): void{
         $this->position=$position;
         $this->hasMoved = true;
     }
+
+    /**
+     * @return PieceType
+     */
     public function getType(): PieceType{
         return $this->type;
     }
+    /**
+     * @return string Représentation ASCII de la pièce
+     */
     public function render(): string {
         $isWhite = $this->color === PieceColor::WHITE;
 
@@ -37,6 +67,17 @@ abstract class Piece
         };
     }
 
+    /**
+     * Vérifie si la pièce peut se déplacer vers la case cible.
+     * Applique les règles génériques (pas sur place, chemin libre, pas sur allié).
+     *
+     * @param Board $board
+     * @param Position $target
+     * @return bool
+     * @throws SameTileException
+     * @throws InvalidMoveException
+     * @throws OccupiedByAllyException
+     */
     public function canMove(Board $board, Position $target): bool
     {
         // 1.la pièce ne reste pas sur place
@@ -65,13 +106,30 @@ abstract class Piece
         return true;
     }
 
+    /**
+     * Vérifie la validité du motif de déplacement spécifique à la pièce.
+     *
+     * @param Position $target
+     * @return bool
+     */
     abstract protected function isValidMovementShape(Position $target): bool;
+
+    /**
+     * Vérifie si la pièce peut capturer la cible.
+     *
+     * @param Board $board
+     * @param Position $target
+     * @return bool
+     */
     protected function canCapture(Board $board, Position $target): bool{
 
         //return $board->hasPieceAt($target) && $this->canMove($board,$target);
         return $board->hasPieceAt($target);
     }
 
+    /**
+     * @return bool Vrai si la pièce a déjà bougé
+     */
     public function hasMoved(){
         return $this->hasMoved;
     }

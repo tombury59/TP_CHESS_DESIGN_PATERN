@@ -8,8 +8,23 @@ require_once __DIR__ . '/../Piece/Queen.php';
 require_once __DIR__ . '/../Piece/King.php';
 require_once __DIR__ . '/../Enum/PieceColor.php';
 require_once __DIR__ . '/../Enum/PieceType.php';
+require_once __DIR__ . '/../Exception/InvalidPieceTypeException.php';
+
+/**
+ * Classe PieceFactory
+ * 
+ * Fabrique des pièces d'échecs.
+ */
 class PieceFactory{
 
+    /**
+     * Crée une pièce d'échecs.
+     *
+     * @param PieceType $type
+     * @param PieceColor $color
+     * @param Position $position
+     * @return Piece
+     */
     public function create(PieceType $type, PieceColor $color, Position $position): Piece
     {
         switch ($type) {
