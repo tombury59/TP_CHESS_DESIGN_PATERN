@@ -21,8 +21,11 @@ class King extends Piece{
         $distanceRow=abs($rowArrive-$rowDepart);
         $distanceColumn=abs($columnArrive-$columnDepart);
 
+        $oneCaseMove = ($distanceColumn<=1 && $distanceRow<=1);
+        $rockMove = (!$this->hasMoved() && $distanceRow === 0 && $distanceColumn === 2);
+
         // distance cases adjacentes max == 1
-        return $distanceColumn<=1 && $distanceRow<=1;
+        return $oneCaseMove || $rockMove;
 
     }
 }

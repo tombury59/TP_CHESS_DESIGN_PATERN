@@ -9,6 +9,7 @@ abstract class Piece
     public function __construct(PieceColor $color, Position $position){
         $this->color=$color;
         $this->position=$position;
+        $this->hasMoved=false;
     }
     public function getColor(): PieceColor{
         return $this->color;
@@ -18,6 +19,7 @@ abstract class Piece
     }
     public function setPosition(Position $position): void{
         $this->position=$position;
+        $this->hasMoved = true;
     }
     public function getType(): PieceType{
         return $this->type;
@@ -68,5 +70,9 @@ abstract class Piece
 
         //return $board->hasPieceAt($target) && $this->canMove($board,$target);
         return $board->hasPieceAt($target);
+    }
+
+    public function hasMoved(){
+        return $this->hasMoved;
     }
 }

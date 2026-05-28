@@ -48,6 +48,43 @@ class Game{
         if (!$piece->canMove($this->board,$move->getTo() )) {
             throw new InvalidMoveException();
         }
+        if ($piece->getType() === PieceType::KING
+            && abs($move->getTo()->getColumn() - $move->getFrom()->getColumn()) === 2) {
+
+            $row = $move->getFrom()->getRow();
+
+            // petit roque
+            if ($move->getTo()->getColumn() === 6) {
+
+                $rookFrom = new Position($row, 7);
+                $rookTo   = new Position($row, 5);
+
+            }
+            // grand roque
+            else {
+
+                $rookFrom = new Position($row, 0);
+                $rookTo   = new Position($row, 3);
+            }
+
+            $rook = $this->board->getPieceAt($rookFrom);
+
+            if ($rook === null || $rook->getType() !== PieceType::ROOK || $rook->hasMoved()) {
+                throw new InvalidMoveException("Roque impossible : tour invalide.");
+            }
+
+            $kingPathClear = $this->board->isPathClear(
+                $move->getFrom(),
+                new Position($row, $move->getTo()->getColumn())
+            );
+
+            if (!$kingPathClear) {
+                throw new InvalidMoveException("Le roque est impossible : le chemin du roi n'est pas libre.");
+            }
+
+            $this->board->movePiece($rookFrom, $rookTo);
+        }
+
         $this->board->movePiece($move->getFrom(), $move->getTo());
         $piece->setPosition($move->getTo());
 
