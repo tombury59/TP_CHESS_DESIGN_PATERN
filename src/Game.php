@@ -117,22 +117,22 @@ class Game{
             $this->board->movePiece($rookFrom, $rookTo);
         }
 
+        $capturedPiece = $this->board->getPieceAt($move->getTo());
+
         $this->board->movePiece($move->getFrom(), $move->getTo());
         $piece->setPosition($move->getTo());
-
-        $capturedPiece = $this->board->getPieceAt($move->getTo());
         
         if ($this->isCheck($this->currentPlayer)) {
-                // cancel move
-                $this->board->movePiece($move->getTo(), $move->getFrom());
-                $piece->setPosition($move->getFrom());
+            // cancel move
+            $this->board->movePiece($move->getTo(), $move->getFrom());
+            $piece->setPosition($move->getFrom());
 
-                if ($capturedPiece !== null) {
-                    $this->board->placePiece($capturedPiece);
-                }
-
-                throw new InvalidMoveException("Coup illégal : Votre roi est en échec !");
+            if ($capturedPiece !== null) {
+                $this->board->placePiece($capturedPiece);
             }
+
+            throw new InvalidMoveException("Coup illégal : Votre roi est en échec !");
+        }
         $this->switchPlayer();
     }
     /**

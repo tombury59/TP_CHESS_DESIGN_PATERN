@@ -13,7 +13,7 @@ use App\Exception\NoPieceException;
 use App\Exception\OccupiedByAllyException;
 use App\Exception\SameTileException;
 use App\Exception\WrongTurnException;
-use Exception;
+
 
 /**
  * Joue une série de coups.
@@ -108,6 +108,19 @@ function scenarioGrandRoque(): void
     ], [[7,4], [7,2]]); // Final: e1 -> c1
 }
 
-// scenarioPetitRoque();
+// 4. Capture
+function scenarioCapture(): void
+{
+    executerScenario("Capture", [
+        [[6,4],[4,4]], [[1,0],[2,0]], // e2->e4, a7->a6
+        [[7,5],[4,2]], [[2,0],[3,0]], // f1->c4, a5->a4
+        [[7,3],[5,5]], [[0,1],[2,2]], // d1->h5, b8->c6
+    ], [[5,5], [1,5]], function($game) {
+        
+    });
+}
+
+scenarioPetitRoque();
 // scenarioMatDuBerger();
-scenarioGrandRoque();
+// scenarioGrandRoque();
+// scenarioCapture();
