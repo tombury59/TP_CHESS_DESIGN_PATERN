@@ -161,6 +161,6 @@ php index.php
 ❌ Pat
 ❌ Historique complet des coups
 ❌ Tests automatisés
-❌ Autre bonus : à préciser
+✅ Autre bonus : Autoloader
 
 
